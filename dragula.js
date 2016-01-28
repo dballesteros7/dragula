@@ -39,6 +39,9 @@ function dragula (initialContainers, options) {
   if (o.direction === void 0) { o.direction = 'vertical'; }
   if (o.ignoreInputTextSelection === void 0) { o.ignoreInputTextSelection = true; }
   if (o.mirrorContainer === void 0) { o.mirrorContainer = doc.body; }
+  if (o.changeMirrorSize === void 0) { o.changeMirrorSize = false; }
+  if (o.mirrorWidth === void 0) { o.mirrorWidth = -1; }
+  if (o.mirrorHeight === void 0) { o.mirrorHeight = -1; }
 
   var drake = emitter({
     containers: o.containers,
@@ -354,8 +357,18 @@ function dragula (initialContainers, options) {
 
     var clientX = getCoord('clientX', e);
     var clientY = getCoord('clientY', e);
-    var x = clientX - _offsetX;
-    var y = clientY - _offsetY;
+
+    var x = clientX;
+    var y = clientY;
+    if (o.changeMirrorSize) {
+      var rect = _mirror.getBoundingClientRect();
+
+      x -= rect.width / 2;
+      y -= rect.height / 2;
+    } else {
+      x -= _offsetX;
+      y -= _offsetY;
+    }
 
     _mirror.style.left = x + 'px';
     _mirror.style.top = y + 'px';
@@ -418,8 +431,15 @@ function dragula (initialContainers, options) {
     }
     var rect = _item.getBoundingClientRect();
     _mirror = _item.cloneNode(true);
-    _mirror.style.width = getRectWidth(rect) + 'px';
-    _mirror.style.height = getRectHeight(rect) + 'px';
+
+    if (o.changeMirrorSize) {
+      _mirror.style.width = o.mirrorWidth + 'px';
+      _mirror.style.height = o.mirrorHeight + 'px';
+    } else {
+      _mirror.style.width = getRectHeight(rect) + 'px';
+      _mirror.style.height = getRectHeight(rect) + 'px';
+    }
+
     classes.rm(_mirror, 'gu-transit');
     classes.add(_mirror, 'gu-mirror');
     o.mirrorContainer.appendChild(_mirror);

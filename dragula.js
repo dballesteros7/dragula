@@ -362,7 +362,6 @@ function dragula (initialContainers, options) {
     var y = clientY;
     if (o.changeMirrorSize) {
       var rect = _mirror.getBoundingClientRect();
-
       x -= rect.width / 2;
       y -= rect.height / 2;
     } else {
@@ -375,6 +374,7 @@ function dragula (initialContainers, options) {
 
     var item = _copy || _item;
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
+    drake.emit('dragmove', _mirror, elementBehindCursor);
     var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
     var changed = dropTarget !== null && dropTarget !== _lastDropTarget;
     if (changed || dropTarget === null) {

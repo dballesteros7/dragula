@@ -374,7 +374,10 @@ function dragula (initialContainers, options) {
 
     var item = _copy || _item;
     var elementBehindCursor = getElementBehindPoint(_mirror, clientX, clientY);
-    drake.emit('dragmove', _mirror, elementBehindCursor);
+    drake.emit('dragmove', _mirror, elementBehindCursor, {
+      clientX: clientX,
+      clientY: clientY
+    });
     var dropTarget = findDropTarget(elementBehindCursor, clientX, clientY);
     var changed = dropTarget !== null && dropTarget !== _lastDropTarget;
     if (changed || dropTarget === null) {

@@ -439,7 +439,7 @@ function dragula (initialContainers, options) {
       _mirror.style.width = o.mirrorWidth + 'px';
       _mirror.style.height = o.mirrorHeight + 'px';
     } else {
-      _mirror.style.width = getRectHeight(rect) + 'px';
+      _mirror.style.width = getRectWidth(rect) + 'px';
       _mirror.style.height = getRectHeight(rect) + 'px';
     }
 
